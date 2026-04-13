@@ -325,15 +325,3 @@ ollama-stack/
 Этот проект распространяется под лицензией MIT. Подробности в файле [LICENSE](LICENSE).
 
 ---
-
-## 📞 Поддержка
-
-- 📖 **Документация**: [guide.md](guide.md)
-- 🐛 **Баги**: [GitHub Issues](https://github.com/your-username/ollama-stack/issues)
-- 💬 **Обсуждения**: [GitHub Discussions](https://github.com/your-username/ollama-stack/discussions)
-
----
-
-<p align="center">
-  <strong>🌟 Если проект понравился — поставьте звезду!</strong>
-</p>

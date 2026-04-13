@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: open-webui
+    restart: unless-stopped
+
+    # Порт доступа к веб-интерфейсу
+    ports:
+      - "3000:8080"
+
+    # Переменные окружения
+    environment:
+      # Адрес локального Ollama (специальный хост для Docker на Windows)
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+
+      # Приватность: отключение телеметрии
+      - DISABLE_ANALYTICS=true
+
+      # RAG: работа с документами
+      - ENABLE_RAG=true
+      - RAG_TOP_K=5
+      - RAG_EMBEDDING_MODEL=all-minilm:l6-v2
+
+      # Параметры по умолчанию для моделей
+      - DEFAULT_CONTEXT_LENGTH=8192
+      - DEFAULT_TEMPERATURE=0.3
+      - MAX_TOKENS=4096
+
+    # Сохранение данных: чаты, пользователи, настройки
+    volumes:
+      - ./webui-data:/app/backend/data
+
+    # Ограничение ресурсов контейнера (опционально)
+    deploy:
+      resources:
+        limits:
+          memory: 4G

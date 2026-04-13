@@ -1,0 +1,34 @@
+# Данные Open WebUI (создаются автоматически)
+webui-data/
+
+# Бэкапы
+backup/
+
+# Временные файлы
+*.tmp
+*.log
+*.cache
+
+# Файлы Ollama (не должны храниться в репозитории)
+**/.ollama/
+
+# Конфигурационные файлы с чувствительными данными
+config.json
+
+# Docker
+.docker/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ОС
+Thumbs.db
+Desktop.ini
+
+# Загрузки установщиков
+*.exe
+*.msi

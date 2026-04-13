@@ -1,0 +1,7 @@
+{
+  "num_gpu": 99,
+  "num_thread": 12,
+  "main_gpu": 0,
+  "low_vram": false,
+  "num_batch": 512
+}

@@ -41,8 +41,6 @@ cd ollama-stack
 
 ## 📥 Установка
 
-### Вариант 1: Автоматическая установка (рекомендуется)
-
 ```powershell
 # Запустите PowerShell ОТ ИМЕНИ АДМИНИСТРАТОРА
 .\install-all.ps1
@@ -55,12 +53,6 @@ cd ollama-stack
 - ✅ Установит Docker Desktop
 - ✅ Создаст структуру проекта
 - ✅ Настроит конфигурацию
-
-### Вариант 2: Ручная установка
-
-Следуйте подробному руководству: [guide.md](guide.md)
-
----
 
 ## 🎯 Использование
 
@@ -177,26 +169,6 @@ docker compose ps
 
 ---
 
-## 📦 Структура репозитория
-```
-ollama-stack/
-├── 📄 README.md                  # Документация (этот файл)
-├── 📄 guide.md                   # Полное руководство (русский)
-├── 📄 LICENSE                    # Лицензия MIT
-├── 📄 docker-compose.yml         # Конфигурация Open WebUI
-├── 📄 config.json.example        # Пример config для Ollama
-│
-├── 🔧 install-all.ps1            # Скрипт полной установки
-├── 🚀 start-assistant.ps1        # Скрипт запуска ассистента
-├── 🔍 check-ai.ps1               # Скрипт диагностики
-├── 💾 backup.ps1                 # Скрипт бэкапа
-│
-└── 📁 webui-data/                # Данные Open WebUI (создаётся автоматически)
-    └── ...                       # Чаты, пользователи, документы
-```
-
----
-
 ## 🔐 Безопасность
 
 - 🔒 Все данные хранятся **локально** на вашем компьютере
@@ -204,12 +176,6 @@ ollama-stack/
 - 🔐 При открытии в сеть рекомендуется:
   - Настроить аутентификацию в Open WebUI
   - Использовать HTTPS через обратный прокси (Nginx/Caddy)
-
----
-
-## 📖 Полное руководство
-
-Подробное руководство на русском языке с пошаговыми инструкциями, скриншотами и решениями проблем: [guide.md](guide.md)
 
 ---
 
@@ -224,15 +190,3 @@ ollama-stack/
 MIT. См. [LICENSE](LICENSE).
 
 ---
-
-## 📞 Поддержка
-
-- 📖 **Документация**: [guide.md](guide.md)
-- 🐛 **Баги**: [GitHub Issues](https://github.com/your-username/ollama-stack/issues)
-- 💬 **Обсуждения**: [GitHub Discussions](https://github.com/your-username/ollama-stack/discussions)
-
----
-
-<p align="center">
-  <strong>🌟 Если проект понравился — поставьте звезду!</strong>
-</p>

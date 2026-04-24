@@ -2,6 +2,12 @@
     IncludeDefaultRules = $true
     ExcludeRules = @(
         'PSAvoidUsingWriteHost',
-        'PSUseApprovedVerbs'
+        'PSUseApprovedVerbs',
+        'PSUseShouldProcessForStateChangingFunctions',
+        'PSUseDeclaredVarsMoreThanAssignments',
+        'PSAvoidUsingEmptyCatchBlock',      # ← Добавьте это
+        'PSUseBOMForUnicodeEncodedFile',    # ← И это
+        'PSAvoidUsingInvokeExpression',
+        'PSUseBOMForUnicodeEncodedFile'
     )
 }

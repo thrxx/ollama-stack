@@ -30,7 +30,7 @@ jobs:
               $results = Invoke-ScriptAnalyzer -Path . -Recurse
           }
 
-          if ($results) {
+          if ($results -and $results.Count -gt 0) {
               $results | Format-Table RuleName, Severity, ScriptName, Line, Message
               throw "❌ PSScriptAnalyzer found $($results.Count) issue(s)"
           }

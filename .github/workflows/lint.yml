@@ -1,0 +1,27 @@
+name: CI Lint
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: [ '**.ps1' ]
+  pull_request:
+    branches: [ main ]
+    paths: [ '**.ps1' ]
+
+jobs:
+  powershell-lint:
+    name: PSScriptAnalyzer
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install PSScriptAnalyzer
+        run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+      
+      - name: Analyze
+        run: |
+          $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings .powershell-psscriptanalyzer.psd1
+          if ($results) {
+            $results | Format-Table
+            throw "❌ Found $($results.Count) issues"
+          }

@@ -3,6 +3,7 @@ name: CI Lint
 on:
   push:
     branches: [ main, develop ]
+
   pull_request:
     branches: [ main, develop ]
 
@@ -18,20 +19,19 @@ jobs:
       
       - name: Analyze
         run: |
-          # Используем полный путь к конфигу
-          $settingsPath = "${{ github.workspace }}\.powershell-psscriptanalyzer.psd1"
-          Write-Host "Settings path: $settingsPath"
+          $settingsPath = Join-Path ${{ github.workspace }} ".powershell-psscriptanalyzer.psd1"
+          Write-Host "🔍 Checking settings at: $settingsPath"
           
           if (Test-Path $settingsPath) {
-            Write-Host "✅ Config file found"
-            $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings $settingsPath
+              Write-Host "✅ Config found. Running with custom settings..."
+              $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings $settingsPath
           } else {
-            Write-Warning "⚠️ Config not found, using default rules"
-            $results = Invoke-ScriptAnalyzer -Path . -Recurse
+              Write-Host "⚠️ Config not found. Running with defaults..."
+              $results = Invoke-ScriptAnalyzer -Path . -Recurse
           }
-          
+
           if ($results) {
-            $results | Format-Table
-            throw "❌ Found $($results.Count) issues"
+              $results | Format-Table RuleName, Severity, ScriptName, Line, Message
+              throw "❌ PSScriptAnalyzer found $($results.Count) issue(s)"
           }
-          Write-Host "✅ PSScriptAnalyzer: все скрипты в порядке"
+          Write-Host "✅ PSScriptAnalyzer: All checks passed!" -ForegroundColor Green

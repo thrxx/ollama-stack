@@ -15,16 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
-      - name: Debug - List files
+      - name: Debug - Show repository files
         run: |
-          Write-Host "=== Files in repository ==="
-          Get-ChildItem -Force
-          Write-Host "`n=== Looking for config ==="
-          $configExists = Test-Path ".powershell-psscriptanalyzer.psd1"
-          Write-Host "Config file exists: $configExists"
-          if (-not $configExists) {
-            Get-ChildItem -Filter "*.psd1" -Recurse | ForEach-Object { Write-Host "Found: $($_.FullName)" }
-          }
+          Write-Host "=== Working directory: $(Get-Location) ==="
+          Write-Host "`n=== All files in root ==="
+          Get-ChildItem -Force | Select-Object Name
+          Write-Host "`n=== Looking for .psd1 files ==="
+          Get-ChildItem -Filter "*.psd1" -Recurse | ForEach-Object { Write-Host "Found: $($_.FullName)" }
       
       - name: Install PSScriptAnalyzer
         run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
@@ -32,7 +29,14 @@ jobs:
       - name: Analyze
         run: |
           $configPath = ".powershell-psscriptanalyzer.psd1"
-          if (Test-Path $configPath) {
+          Write-Host "`n=== Checking for config ==="
+          Write-Host "Looking for: $configPath"
+          Write-Host "Full path would be: $(Join-Path (Get-Location) $configPath)"
+          $exists = Test-Path $configPath
+          Write-Host "File exists: $exists"
+          
+          if ($exists) {
+            Write-Host "`n=== Running PSScriptAnalyzer ==="
             $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings $configPath
             if ($results) {
               $results | Format-Table
@@ -40,8 +44,8 @@ jobs:
             }
             Write-Host "✅ PSScriptAnalyzer: все скрипты в порядке"
           } else {
-            Write-Warning "⚠️ Config file not found: $configPath"
-            Write-Warning "⚠️ Running without custom settings..."
+            Write-Warning "⚠️ Config file NOT found: $configPath"
+            Write-Warning "⚠️ Running with default settings..."
             $results = Invoke-ScriptAnalyzer -Path . -Recurse
             if ($results) {
               $results | Format-Table

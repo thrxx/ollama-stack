@@ -20,9 +20,17 @@ jobs:
       
       - name: Analyze
         run: |
-          # Используем стандартные настройки без кастомного конфига
-          $results = Invoke-ScriptAnalyzer -Path . -Recurse `
-            -ExcludeRule PSAvoidUsingWriteHost,PSUseApprovedVerbs,PSUseShouldProcessForStateChangingFunctions
+          # Используем полный путь к конфигу
+          $settingsPath = "${{ github.workspace }}\.powershell-psscriptanalyzer.psd1"
+          Write-Host "Settings path: $settingsPath"
+          
+          if (Test-Path $settingsPath) {
+            Write-Host "✅ Config file found"
+            $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings $settingsPath
+          } else {
+            Write-Warning "⚠️ Config not found, using default rules"
+            $results = Invoke-ScriptAnalyzer -Path . -Recurse
+          }
           
           if ($results) {
             $results | Format-Table

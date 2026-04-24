@@ -1,0 +1,39 @@
+name: CI Lint
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: [ '**.ps1' ]
+  pull_request:
+    branches: [ main, develop ]
+    paths: [ '**.ps1' ]
+
+jobs:
+  powershell-lint:
+    name: PSScriptAnalyzer
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install PSScriptAnalyzer
+        run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
+      
+      - name: Analyze
+        run: |
+          # Используем полный путь к конфигу
+          $settingsPath = "${{ github.workspace }}\.powershell-psscriptanalyzer.psd1"
+          Write-Host "Settings path: $settingsPath"
+          
+          if (Test-Path $settingsPath) {
+            Write-Host "✅ Config file found"
+            $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings $settingsPath
+          } else {
+            Write-Warning "⚠️ Config not found, using default rules"
+            $results = Invoke-ScriptAnalyzer -Path . -Recurse
+          }
+          
+          if ($results) {
+            $results | Format-Table
+            throw "❌ Found $($results.Count) issues"
+          }
+          Write-Host "✅ PSScriptAnalyzer: все скрипты в порядке"

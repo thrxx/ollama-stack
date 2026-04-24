@@ -18,10 +18,24 @@ jobs:
       - name: Install PSScriptAnalyzer
         run: Install-Module -Name PSScriptAnalyzer -Force -Scope CurrentUser
       
+      - name: Debug - Show files
+        run: |
+          Write-Host "Current directory: $(Get-Location)"
+          Write-Host "Files in root:"
+          Get-ChildItem | Select-Object Name
+          Test-Path ".powershell-psscriptanalyzer.psd1"
+      
       - name: Analyze
         run: |
-          $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings .powershell-psscriptanalyzer.psd1
-          if ($results) {
-            $results | Format-Table
-            throw "❌ Found $($results.Count) issues"
+          $settingsPath = Join-Path ${{ github.workspace }} ".powershell-psscriptanalyzer.psd1"
+          Write-Host "Looking for: $settingsPath"
+          if (Test-Path $settingsPath) {
+            $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings $settingsPath
+            if ($results) {
+              $results | Format-Table
+              throw "❌ Found $($results.Count) issues"
+            }
+          } else {
+            Write-Warning "Settings file not found: $settingsPath"
+            exit 1
           }

@@ -5,7 +5,7 @@ on:
     branches: [ main, develop ]
     paths: [ '**.ps1' ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths: [ '**.ps1' ]
 
 jobs:

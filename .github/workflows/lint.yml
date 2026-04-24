@@ -3,10 +3,8 @@ name: CI Lint
 on:
   push:
     branches: [ main, develop ]
-    paths: [ '**.ps1' ]
   pull_request:
     branches: [ main, develop ]
-    paths: [ '**.ps1' ]
 
 jobs:
   powershell-lint:

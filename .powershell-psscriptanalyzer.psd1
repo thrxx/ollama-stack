@@ -7,7 +7,8 @@
         'PSUseDeclaredVarsMoreThanAssignments',
         'PSAvoidUsingEmptyCatchBlock',
         'PSAvoidUsingInvokeExpression',
-        'PSUseBOMForUnicodeEncodedFile'
+        'PSUseBOMForUnicodeEncodedFile',
+        'PSUseConsistentWhitespace'
     )
     Rules = @{
         PSUseConsistentIndentation = @{
